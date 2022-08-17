@@ -1,4 +1,3 @@
-import { lookup } from 'dns';
 import React, { useEffect, useState } from 'react';
 import './mat.css';
 
