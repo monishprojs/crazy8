@@ -6,7 +6,7 @@ function Mat() {
     let id: string = "jtatq55nbryd";
     const [count, setCount] = useState(0);
     const [turn, setTurn] = useState(0);
-    const crazy: string[] = ["ACE", "JACK", "KING", "QUEEN"]
+    const crazy: string[] = ["ACE", "JACK"]
     const [hand, setHand] = useState([{ src: "", value: "", suit: "" }]);
     const [hand1, setHand1] = useState([{ src: "", value: "", suit: "" }]);
     const [hand2, setHand2] = useState([{ src: "", value: "", suit: "" }]);
