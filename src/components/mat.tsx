@@ -53,11 +53,31 @@ function Mat() {
         }
     }
 
-    function addPile(index: number) {
+    function addPile(index: number, player: number) {
         let eligible: boolean = false;
-        let handSrc = hand[index].src;
-        let handValue = hand[index].value;
-        let handSuit = hand[index].suit;
+        let handSrc = "";
+        let handValue = "";
+        let handSuit = "";
+        if (player === 0) {
+            handSrc = hand[index].src;
+            handValue = hand[index].value;
+            handSuit = hand[index].suit;
+        }
+        else if (player === 1) {
+            handSrc = hand1[index].src;
+            handValue = hand1[index].value;
+            handSuit = hand1[index].suit;
+        }
+        else if (player === 2) {
+            handSrc = hand2[index].src;
+            handValue = hand2[index].value;
+            handSuit = hand2[index].suit;
+        }
+        else if (player === 3) {
+            handSrc = hand3[index].src;
+            handValue = hand3[index].value;
+            handSuit = hand3[index].suit;
+        }
         if (pile[0].src === "") {
             eligible = true;
         }
@@ -69,11 +89,30 @@ function Mat() {
             }
         }
         if (eligible === true) {
-            setPile([{ src: handSrc, value: handValue, suit: handSuit }])
-
-            let placeholder = [...hand];
-            placeholder.splice(index, 1);
-            setHand(placeholder);
+            if (player === 0) {
+                setPile([{ src: handSrc, value: handValue, suit: handSuit }])
+                let placeholder = [...hand];
+                placeholder.splice(index, 1);
+                setHand(placeholder);
+            }
+            else if (player === 1) {
+                setPile([{ src: handSrc, value: handValue, suit: handSuit }])
+                let placeholder = [...hand1];
+                placeholder.splice(index, 1);
+                setHand1(placeholder);
+            }
+            else if (player === 2) {
+                setPile([{ src: handSrc, value: handValue, suit: handSuit }])
+                let placeholder = [...hand2];
+                placeholder.splice(index, 1);
+                setHand2(placeholder);
+            }
+            else if (player === 3) {
+                setPile([{ src: handSrc, value: handValue, suit: handSuit }])
+                let placeholder = [...hand3];
+                placeholder.splice(index, 1);
+                setHand3(placeholder);
+            }
         }
 
 
@@ -94,38 +133,38 @@ function Mat() {
             <div>
                 <button >draw</button>
             </div>
+            <div className='items2'>
+                {hand2.map((card, index) => {
+                    return (
+                        <div className="item">
+                            <img className='card' onClick={() => addPile(index, 2)} src={card.src} alt="" />
+                        </div>
+                    );
+                })}
+            </div>
+            <div className='items1'>
+                {hand1.map((card, index) => {
+                    return (
+                        <div className="item">
+                            <img className='card' onClick={() => addPile(index, 1)} src={card.src} alt="" />
+                        </div>
+                    );
+                })}
+            </div>
+            <div className='items3'>
+                {hand3.map((card, index) => {
+                    return (
+                        <div className="item">
+                            <img className='card' onClick={() => addPile(index, 3)} src={card.src} alt="" />
+                        </div>
+                    );
+                })}
+            </div>
             <div className='items'>
                 {hand.map((card, index) => {
                     return (
                         <div className="item">
-                            <img className='card' onClick={() => addPile(index)} src={card.src} alt="" />
-                        </div>
-                    );
-                })}
-            </div>
-            <div className='items'>
-                {hand1.map((card, index) => {
-                    return (
-                        <div className="item">
-                            <img className='card' onClick={() => addPile(index)} src={card.src} alt="" />
-                        </div>
-                    );
-                })}
-            </div>
-            <div className='items'>
-                {hand2.map((card, index) => {
-                    return (
-                        <div className="item">
-                            <img className='card' onClick={() => addPile(index)} src={card.src} alt="" />
-                        </div>
-                    );
-                })}
-            </div>
-            <div className='items'>
-                {hand3.map((card, index) => {
-                    return (
-                        <div className="item">
-                            <img className='card' onClick={() => addPile(index)} src={card.src} alt="" />
+                            <img className='card' onClick={() => addPile(index, 0)} src={card.src} alt="" />
                         </div>
                     );
                 })}

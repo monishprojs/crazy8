@@ -6,7 +6,31 @@ body {
     display: flex;
     justify-content: center;
     bottom: 0;
-    margin-top: 70vh;
+    margin-top: 45vh;
+}
+
+.items1 {
+    -webkit-transform: rotate(90deg);
+    position: fixed;
+    display: flex;
+    left: -5%;
+    margin-top: 10vh;
+}
+
+.items2 {
+    display: flex;
+    justify-content: center;
+    bottom: 0;
+    margin-top: 0;
+}
+
+.items3 {
+    -webkit-transform: rotate(90deg);
+    position: fixed;
+    right: -5%;
+    margin-top: 10vh;
+    display: flex;
+
 }
 
 .pile {
