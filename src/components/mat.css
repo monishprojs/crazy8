@@ -109,3 +109,19 @@ body {
 .card:hover {
     opacity: 0.5;
 }
+
+.win {
+    display: none;
+}
+
+.win1 {
+    display: none;
+}
+
+.win2 {
+    display: none;
+}
+
+.win3 {
+    display: none;
+}

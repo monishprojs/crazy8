@@ -24,6 +24,8 @@ function Mat() {
 
 
     function drawStart() {
+        setTurn(turn => 0);
+        setPile(([{ src: "", value: "", suit: "" }]));
         setHand(([{ src: "", value: "", suit: "" }]));
         setHand1(([{ src: "", value: "", suit: "" }]));
         setHand2(([{ src: "", value: "", suit: "" }]));
@@ -59,7 +61,7 @@ function Mat() {
     }
 
     function addPile(index: number, player: number) {
-        if (turn === player) {
+        if (turn === player && count > 0) {
             let eligible: boolean = false;
             let handSrc = "";
             let handValue = "";
@@ -96,35 +98,57 @@ function Mat() {
                 }
             }
             if (eligible === true) {
+                setCount(count => count - 1);
                 if (turn < 3) {
                     setTurn(turn => turn + 1);
                 }
                 else {
                     setTurn(turn => 0)
                 }
+                setPile([{ src: handSrc, value: handValue, suit: handSuit }]);
                 if (player === 0) {
-                    setPile([{ src: handSrc, value: handValue, suit: handSuit }])
                     let placeholder = [...hand];
                     placeholder.splice(index, 1);
                     setHand(placeholder);
+                    if (placeholder.length === 1) {
+                        let win = document.getElementById("win");
+                        if (win != null) {
+                            win.style.display = "inline-block";
+                        }
+                    }
                 }
                 else if (player === 1) {
-                    setPile([{ src: handSrc, value: handValue, suit: handSuit }])
                     let placeholder = [...hand1];
                     placeholder.splice(index, 1);
                     setHand1(placeholder);
+                    if (placeholder.length === 1) {
+                        let win = document.getElementById("win1");
+                        if (win != null) {
+                            win.style.display = "inline-block";
+                        }
+                    }
                 }
                 else if (player === 2) {
-                    setPile([{ src: handSrc, value: handValue, suit: handSuit }])
                     let placeholder = [...hand2];
                     placeholder.splice(index, 1);
                     setHand2(placeholder);
+                    if (placeholder.length === 1) {
+                        let win = document.getElementById("win2");
+                        if (win != null) {
+                            win.style.display = "inline-block";
+                        }
+                    }
                 }
                 else if (player === 3) {
-                    setPile([{ src: handSrc, value: handValue, suit: handSuit }])
                     let placeholder = [...hand3];
                     placeholder.splice(index, 1);
                     setHand3(placeholder);
+                    if (placeholder.length === 1) {
+                        let win = document.getElementById("win3");
+                        if (win != null) {
+                            win.style.display = "inline-block";
+                        }
+                    }
                 }
                 return true;
             }
@@ -176,7 +200,10 @@ function Mat() {
     }, [])
     return (
         <div className="mat">
-            <div className="label label2">P2</div>
+            <div className="label label2">P2&nbsp;
+                <div className='win2' id="win2">
+                    wins!
+                </div></div>
             <div className='items2'>
                 {hand2.map((card, index) => {
                     return (
@@ -186,7 +213,11 @@ function Mat() {
                     );
                 })}
             </div>
-            <div className="label label1">P1</div>
+            <div className="label label1">P1&nbsp;
+                <div className='win1' id="win1">
+                    wins!
+                </div>
+            </div>
             <div className='items1'>
                 {hand1.map((card, index) => {
                     return (
@@ -205,7 +236,10 @@ function Mat() {
                     );
                 })}
             </div>
-            <div className='label label3'>P3</div>
+            <div className='label label3'>P3&nbsp;
+                <div className='win3' id="win3">
+                    wins!
+                </div></div>
             <div className='items'>
                 {hand.map((card, index) => {
                     return (
@@ -215,7 +249,10 @@ function Mat() {
                     );
                 })}
             </div>
-            <div className='label label0'>P0</div>
+            <div className='label label0'>P0&nbsp;
+                <div className='win' id="win">
+                    wins!
+                </div></div>
             <div>
                 <div className='info'>
                     <button className="start" onClick={() => drawStart()}>New Game <br /> (Click to Start)</button>
@@ -226,7 +263,7 @@ function Mat() {
                     </p>
                 </div>
                 <div className='pile'>
-                    <img src="https://www.deckofcardsapi.com/static/img/back.png" alt="back" className='card' onClick={() => draw(0)}>
+                    <img src="https://www.deckofcardsapi.com/static/img/back.png" alt="back" className='card' onClick={() => draw(turn)}>
                     </img>
                     {pile.map((card) => {
                         return (
