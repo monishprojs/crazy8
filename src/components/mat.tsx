@@ -4,6 +4,7 @@ import './mat.css';
 function Mat() {
     let id: string = "jtatq55nbryd";
     let count: number = 0;
+    const crazy: string[] = ["ace", "jack", "king", "queen"]
     const [hand, setHand] = useState([{ src: "", value: "", suit: "" }]);
     const [pile, setPile] = useState([{ src: "", value: "", suit: "" }])
 
@@ -36,14 +37,28 @@ function Mat() {
     }
 
     function addPile(index: number) {
-        let srcPlace = hand[index].src;
-        let valuePlace = hand[index].value;
-        let suitPlace = hand[index].suit;
-        setPile([{ src: srcPlace, value: valuePlace, suit: suitPlace }])
+        let eligible: boolean = false;
+        let handSrc = hand[index].src;
+        let handValue = hand[index].value;
+        let handSuit = hand[index].suit;
+        if (pile[0].src === "") {
+            eligible = true;
+        }
+        else {
+            let pileValue = pile[0].value;
+            let pileSuit = pile[0].suit;
+            if (handValue === pileValue || pileSuit === handSuit || crazy.includes(handValue)) {
+                eligible = true;
+            }
+        }
+        if (eligible === true) {
+            setPile([{ src: handSrc, value: handValue, suit: handSuit }])
 
-        let placeholder = [...hand];
-        placeholder.splice(index, 1);
-        setHand(placeholder);
+            let placeholder = [...hand];
+            placeholder.splice(index, 1);
+            setHand(placeholder);
+        }
+
 
     }
 
@@ -56,9 +71,9 @@ function Mat() {
     }, [])
     return (
         <div className="mat">
-            <div>
+            {/* <div>
                 <button onClick={getData}>start</button>
-            </div>
+            </div> */}
             <div>
                 <button onClick={draw}>draw</button>
             </div>
