@@ -92,7 +92,7 @@ function Mat() {
             }
             if (eligible === true) {
                 if (turn < 3) {
-                    setTurn(turn + 1);
+                    setTurn(turn => turn + 1);
                 }
                 else {
                     setTurn(0);
@@ -127,7 +127,7 @@ function Mat() {
     }
 
     function draw(player: number) {
-        if (turn === player) {
+        if (player === turn + 1) {
             fetch("https://www.deckofcardsapi.com/api/deck/" + id + "/draw/?count=1")
                 .then((response) => response.json())
                 .then((data) => {
@@ -153,13 +153,22 @@ function Mat() {
     }
 
     function aiLoop1() {
-        for (let i: number = 0; i < hand1.length; ++i) {
+        let shouldDraw: boolean = true;
+        let i: number = 0;
+        while (i < hand1.length) {
+            console.log(pile[0].suit);
+            console.log(hand[i].suit);
             if (hand1[i].suit === pile[0].suit || hand1[i].value === pile[0].value) {
-                addPile(i, 1);
-                break;
+                shouldDraw = false;
+                i = hand1.length + 1;
+            }
+            else {
+                i = i + 1;
             }
         }
-        draw(1);
+        if (shouldDraw) {
+            draw(1);
+        }
     }
 
     function reShuffle() {
