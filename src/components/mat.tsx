@@ -12,7 +12,9 @@ function Mat() {
     const [hand3, setHand3] = useState([{ src: "", value: "", suit: "" }]);
     const [pile, setPile] = useState([{ src: "", value: "", suit: "" }]);
 
-
+    /**
+     * used to get deck id, not currently in use as deck id remains, but may use again later
+     */
     function getData() {
         fetch("https://www.deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1")
             .then((response) => response.json())
