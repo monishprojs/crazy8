@@ -17,7 +17,6 @@ function Mat() {
         fetch("https://www.deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1")
             .then((response) => response.json())
             .then((data) => {
-                console.log(data)
                 assignCount(data)
             })
     }
@@ -29,7 +28,6 @@ function Mat() {
                 console.log(data)
                 assignStartingHand(data)
                 assignCount(data)
-                console.log(data)
             })
     }
 
@@ -102,7 +100,6 @@ function Mat() {
                     let placeholder = [...hand];
                     placeholder.splice(index, 1);
                     setHand(placeholder);
-                    aiLoop1();
                 }
                 else if (player === 1) {
                     setPile([{ src: handSrc, value: handValue, suit: handSuit }])
@@ -122,12 +119,17 @@ function Mat() {
                     placeholder.splice(index, 1);
                     setHand3(placeholder);
                 }
+                return true;
+            }
+            else {
+                return false;
             }
         }
     }
 
+
     function draw(player: number) {
-        if (player === turn + 1) {
+        if (player === turn) {
             fetch("https://www.deckofcardsapi.com/api/deck/" + id + "/draw/?count=1")
                 .then((response) => response.json())
                 .then((data) => {
@@ -150,26 +152,14 @@ function Mat() {
         else if (player === 3) {
             setHand3(hand3 => [...hand3, { src: data.cards[0].image, value: data.cards[0].value, suit: data.cards[0].suit }]);
         }
+        if (turn < 3) {
+            setTurn(turn => turn + 1);
+        }
+        else {
+            setTurn(0);
+        }
     }
 
-    function aiLoop1() {
-        let shouldDraw: boolean = true;
-        let i: number = 0;
-        while (i < hand1.length) {
-            console.log(pile[0].suit);
-            console.log(hand[i].suit);
-            if (hand1[i].suit === pile[0].suit || hand1[i].value === pile[0].value) {
-                shouldDraw = false;
-                i = hand1.length + 1;
-            }
-            else {
-                i = i + 1;
-            }
-        }
-        if (shouldDraw) {
-            draw(1);
-        }
-    }
 
     function reShuffle() {
         fetch("https://www.deckofcardsapi.com/api/deck/" + id + "/return/")
