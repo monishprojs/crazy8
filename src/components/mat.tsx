@@ -17,18 +17,20 @@ function Mat() {
             })
     }
 
-    function assignDeck(data: any) {
-        count = data.remaining as unknown as number;
-    }
-
     function draw() {
         fetch("https://www.deckofcardsapi.com/api/deck/" + id + "/draw/?count=5")
             .then((response) => response.json())
             .then((data) => {
                 console.log(data)
                 assignHand(data)
+                assignDeck(data)
             })
     }
+
+    function assignDeck(data: any) {
+        count = data.remaining as unknown as number;
+    }
+
 
     function assignHand(data: any) {
         for (let i = 0; i < 5; ++i) {
