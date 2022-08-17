@@ -2,6 +2,15 @@ body {
     background-color: green;
 }
 
+.start {
+    width: 10vw;
+    height: 5vh;
+}
+
+.start:hover {
+    background-color: green;
+}
+
 .items {
     display: flex;
     justify-content: center;
@@ -34,10 +43,11 @@ body {
 }
 
 .pile {
+    display: flex;
     position: fixed;
     top: 30%;
     left: 50%;
-    margin-left: -4vh;
+    margin-left: -12vh;
     margin-top: 10vh;
 }
 

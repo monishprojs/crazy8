@@ -4,7 +4,7 @@ import './mat.css';
 function Mat() {
     let id: string = "jtatq55nbryd";
     let count: number = 0;
-    let turn: number = 0;
+    const [turn, setTurn] = useState(0);
     const crazy: string[] = ["ACE", "JACK", "KING", "QUEEN"]
     const [hand, setHand] = useState([{ src: "", value: "", suit: "" }]);
     const [hand1, setHand1] = useState([{ src: "", value: "", suit: "" }]);
@@ -18,7 +18,7 @@ function Mat() {
             .then((response) => response.json())
             .then((data) => {
                 console.log(data)
-                assignDeck(data)
+                assignCount(data)
             })
     }
 
@@ -28,12 +28,12 @@ function Mat() {
             .then((data) => {
                 console.log(data)
                 assignStartingHand(data)
-                assignDeck(data)
+                assignCount(data)
                 console.log(data)
             })
     }
 
-    function assignDeck(data: any) {
+    function assignCount(data: any) {
         count = data.remaining as unknown as number;
     }
 
@@ -54,69 +54,99 @@ function Mat() {
     }
 
     function addPile(index: number, player: number) {
-        let eligible: boolean = false;
-        let handSrc = "";
-        let handValue = "";
-        let handSuit = "";
-        if (player === 0) {
-            handSrc = hand[index].src;
-            handValue = hand[index].value;
-            handSuit = hand[index].suit;
-        }
-        else if (player === 1) {
-            handSrc = hand1[index].src;
-            handValue = hand1[index].value;
-            handSuit = hand1[index].suit;
-        }
-        else if (player === 2) {
-            handSrc = hand2[index].src;
-            handValue = hand2[index].value;
-            handSuit = hand2[index].suit;
-        }
-        else if (player === 3) {
-            handSrc = hand3[index].src;
-            handValue = hand3[index].value;
-            handSuit = hand3[index].suit;
-        }
-
-        if (pile[0].src === "") {
-            eligible = true;
-        }
-        else {
-            let pileValue = pile[0].value;
-            let pileSuit = pile[0].suit;
-            if (handValue === pileValue || pileSuit === handSuit || crazy.includes(handValue)) {
-                eligible = true;
+        if (turn === player) {
+            if (turn < 3) {
+                setTurn(turn + 1);
             }
-        }
-        if (eligible === true) {
+            else {
+                setTurn(0);
+            }
+            let eligible: boolean = false;
+            let handSrc = "";
+            let handValue = "";
+            let handSuit = "";
             if (player === 0) {
-                setPile([{ src: handSrc, value: handValue, suit: handSuit }])
-                let placeholder = [...hand];
-                placeholder.splice(index, 1);
-                setHand(placeholder);
+                handSrc = hand[index].src;
+                handValue = hand[index].value;
+                handSuit = hand[index].suit;
             }
             else if (player === 1) {
-                setPile([{ src: handSrc, value: handValue, suit: handSuit }])
-                let placeholder = [...hand1];
-                placeholder.splice(index, 1);
-                setHand1(placeholder);
+                handSrc = hand1[index].src;
+                handValue = hand1[index].value;
+                handSuit = hand1[index].suit;
             }
             else if (player === 2) {
-                setPile([{ src: handSrc, value: handValue, suit: handSuit }])
-                let placeholder = [...hand2];
-                placeholder.splice(index, 1);
-                setHand2(placeholder);
+                handSrc = hand2[index].src;
+                handValue = hand2[index].value;
+                handSuit = hand2[index].suit;
             }
             else if (player === 3) {
-                setPile([{ src: handSrc, value: handValue, suit: handSuit }])
-                let placeholder = [...hand3];
-                placeholder.splice(index, 1);
-                setHand3(placeholder);
+                handSrc = hand3[index].src;
+                handValue = hand3[index].value;
+                handSuit = hand3[index].suit;
+            }
+
+            if (pile[0].src === "") {
+                eligible = true;
+            }
+            else {
+                let pileValue = pile[0].value;
+                let pileSuit = pile[0].suit;
+                if (handValue === pileValue || pileSuit === handSuit || crazy.includes(handValue)) {
+                    eligible = true;
+                }
+            }
+            if (eligible === true) {
+                if (player === 0) {
+                    setPile([{ src: handSrc, value: handValue, suit: handSuit }])
+                    let placeholder = [...hand];
+                    placeholder.splice(index, 1);
+                    setHand(placeholder);
+                }
+                else if (player === 1) {
+                    setPile([{ src: handSrc, value: handValue, suit: handSuit }])
+                    let placeholder = [...hand1];
+                    placeholder.splice(index, 1);
+                    setHand1(placeholder);
+                }
+                else if (player === 2) {
+                    setPile([{ src: handSrc, value: handValue, suit: handSuit }])
+                    let placeholder = [...hand2];
+                    placeholder.splice(index, 1);
+                    setHand2(placeholder);
+                }
+                else if (player === 3) {
+                    setPile([{ src: handSrc, value: handValue, suit: handSuit }])
+                    let placeholder = [...hand3];
+                    placeholder.splice(index, 1);
+                    setHand3(placeholder);
+                }
             }
         }
+    }
 
+    function draw(player: number) {
+        fetch("https://www.deckofcardsapi.com/api/deck/" + id + "/draw/?count=1")
+            .then((response) => response.json())
+            .then((data) => {
+                assignHand(data, player)
+                assignCount(data)
+            })
+    }
 
+    function assignHand(data: any, player: number) {
+        if (player === 0) {
+            setHand(hand => [...hand, { src: data.cards[0].image, value: data.cards[0].value, suit: data.cards[0].suit }]);
+        }
+        else if (player === 1) {
+            setHand(hand => [...hand1, { src: data.cards[0].image, value: data.cards[0].value, suit: data.cards[0].suit }]);
+        }
+        else if (player === 2) {
+            setHand(hand => [...hand2, { src: data.cards[0].image, value: data.cards[0].value, suit: data.cards[0].suit }]);
+        }
+        else if (player === 3) {
+            setHand(hand => [...hand3, { src: data.cards[0].image, value: data.cards[0].value, suit: data.cards[0].suit }]);
+        }
     }
 
     function reShuffle() {
@@ -129,10 +159,7 @@ function Mat() {
     return (
         <div className="mat">
             <div>
-                <button onClick={() => drawStart()}>start</button>
-            </div>
-            <div>
-                <button >draw</button>
+                <button className="start" onClick={() => drawStart()}>start</button>
             </div>
             <div className='items2'>
                 {hand2.map((card, index) => {
@@ -171,6 +198,8 @@ function Mat() {
                 })}
             </div>
             <div className='pile'>
+                <p>Turn: {turn}</p>
+                <button className='card' onClick={() => draw(0)}>draw {count}</button>
                 {pile.map((card) => {
                     return (
                         <div className="item">
