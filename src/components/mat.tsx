@@ -22,6 +22,11 @@ function Mat() {
     }
 
     function drawStart() {
+        setHand(([{ src: "", value: "", suit: "" }]));
+        setHand1(([{ src: "", value: "", suit: "" }]));
+        setHand2(([{ src: "", value: "", suit: "" }]));
+        setHand3(([{ src: "", value: "", suit: "" }]));
+        fetch("https://www.deckofcardsapi.com/api/deck/" + id + "/return/");
         fetch("https://www.deckofcardsapi.com/api/deck/" + id + "/draw/?count=20")
             .then((response) => response.json())
             .then((data) => {
@@ -162,7 +167,7 @@ function Mat() {
 
 
     function reShuffle() {
-        fetch("https://www.deckofcardsapi.com/api/deck/" + id + "/return/")
+        fetch("https://www.deckofcardsapi.com/api/deck/" + id + "/return/");
     }
 
     useEffect(() => {
@@ -170,9 +175,7 @@ function Mat() {
     }, [])
     return (
         <div className="mat">
-            <div>
-                <button className="start" onClick={() => drawStart()}>start</button>
-            </div>
+            <div className="label label2">P2</div>
             <div className='items2'>
                 {hand2.map((card, index) => {
                     return (
@@ -182,6 +185,7 @@ function Mat() {
                     );
                 })}
             </div>
+            <div className="label label1">P1</div>
             <div className='items1'>
                 {hand1.map((card, index) => {
                     return (
@@ -200,6 +204,7 @@ function Mat() {
                     );
                 })}
             </div>
+            <div className='label label3'>P3</div>
             <div className='items'>
                 {hand.map((card, index) => {
                     return (
@@ -209,9 +214,16 @@ function Mat() {
                     );
                 })}
             </div>
+            <div className='label label0'>P0</div>
             <div className='pile'>
-                <p>Turn: {turn}</p>
-                <button className='card' onClick={() => draw(0)}>draw {count}</button>
+                <p className='turn'>
+                    Turn: P{turn}
+                    <br />
+                    Cards Left: {count}
+                </p>
+                <img src="https://www.deckofcardsapi.com/static/img/back.png" alt="back" className='card' onClick={() => draw(0)}>
+                </img>
+                <button className="start" onClick={() => drawStart()}>New Game <br /> (Click to Start)</button>
                 {pile.map((card) => {
                     return (
                         <div className="item">
