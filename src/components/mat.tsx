@@ -22,6 +22,7 @@ function Mat() {
             })
     }
 
+
     function drawStart() {
         setHand(([{ src: "", value: "", suit: "" }]));
         setHand1(([{ src: "", value: "", suit: "" }]));
@@ -99,14 +100,13 @@ function Mat() {
                     setTurn(turn => turn + 1);
                 }
                 else {
-                    setTurn(0);
+                    setTurn(turn => 0)
                 }
                 if (player === 0) {
                     setPile([{ src: handSrc, value: handValue, suit: handSuit }])
                     let placeholder = [...hand];
                     placeholder.splice(index, 1);
                     setHand(placeholder);
-                    loop();
                 }
                 else if (player === 1) {
                     setPile([{ src: handSrc, value: handValue, suit: handSuit }])
@@ -134,12 +134,6 @@ function Mat() {
         }
     }
 
-    function loop() {
-        let turn = 1;
-        setTurn(turn);
-        addPile(2, turn);
-    }
-
     function draw(player: number) {
         if (player === turn) {
             fetch("https://www.deckofcardsapi.com/api/deck/" + id + "/draw/?count=1")
@@ -165,10 +159,10 @@ function Mat() {
             setHand3(hand3 => [...hand3, { src: data.cards[0].image, value: data.cards[0].value, suit: data.cards[0].suit }]);
         }
         if (turn < 3) {
-            setTurn(turn => turn + 1);
+            setTurn(turn => turn + 1)
         }
         else {
-            setTurn(0);
+            setTurn(turn => 0)
         }
     }
 
@@ -178,7 +172,7 @@ function Mat() {
     }
 
     useEffect(() => {
-        reShuffle()
+        reShuffle();
     }, [])
     return (
         <div className="mat">
