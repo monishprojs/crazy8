@@ -50,12 +50,23 @@ body {
     display: flex;
 }
 
+.info {
+    display: flex;
+    position: fixed;
+    align-items: center;
+    top: 20%;
+    left: 50%;
+    margin-left: -8vw;
+    margin-top: 10vh;
+}
+
 .pile {
     display: flex;
     position: fixed;
+    align-items: center;
     top: 30%;
     left: 50%;
-    margin-left: -15vh;
+    margin-left: -8vw;
     margin-top: 10vh;
 }
 

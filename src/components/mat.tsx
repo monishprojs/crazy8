@@ -1,3 +1,4 @@
+import { lookup } from 'dns';
 import React, { useEffect, useState } from 'react';
 import './mat.css';
 
@@ -105,6 +106,7 @@ function Mat() {
                     let placeholder = [...hand];
                     placeholder.splice(index, 1);
                     setHand(placeholder);
+                    loop();
                 }
                 else if (player === 1) {
                     setPile([{ src: handSrc, value: handValue, suit: handSuit }])
@@ -132,6 +134,11 @@ function Mat() {
         }
     }
 
+    function loop() {
+        let turn = 1;
+        setTurn(turn);
+        addPile(2, turn);
+    }
 
     function draw(player: number) {
         if (player === turn) {
@@ -215,22 +222,26 @@ function Mat() {
                 })}
             </div>
             <div className='label label0'>P0</div>
-            <div className='pile'>
-                <p className='turn'>
-                    Turn: P{turn}
-                    <br />
-                    Cards Left: {count}
-                </p>
-                <img src="https://www.deckofcardsapi.com/static/img/back.png" alt="back" className='card' onClick={() => draw(0)}>
-                </img>
-                <button className="start" onClick={() => drawStart()}>New Game <br /> (Click to Start)</button>
-                {pile.map((card) => {
-                    return (
-                        <div className="item">
-                            <img className='card' src={card.src} alt="" />
-                        </div>
-                    );
-                })}
+            <div>
+                <div className='info'>
+                    <button className="start" onClick={() => drawStart()}>New Game <br /> (Click to Start)</button>
+                    <p className='turn'>
+                        Turn: P{turn}
+                        <br />
+                        Cards Left: {count}
+                    </p>
+                </div>
+                <div className='pile'>
+                    <img src="https://www.deckofcardsapi.com/static/img/back.png" alt="back" className='card' onClick={() => draw(0)}>
+                    </img>
+                    {pile.map((card) => {
+                        return (
+                            <div className="item">
+                                <img className='card' src={card.src} alt="" />
+                            </div>
+                        );
+                    })}
+                </div>
             </div>
         </div>
     );
