@@ -4,13 +4,21 @@ body {
 
 .items {
     display: flex;
-    justify-content: space-around;
-    position: absolute;
+    justify-content: center;
     bottom: 0;
+    margin-top: 70vh;
+}
+
+.pile {
+    position: fixed;
+    top: 30%;
+    left: 50%;
+    margin-left: -4vh;
+    margin-top: 10vh;
 }
 
 .card {
-    width: 10vw;
+    width: 8vw;
     height: auto;
 }
 
