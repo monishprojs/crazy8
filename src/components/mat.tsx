@@ -3,7 +3,7 @@ import './mat.css';
 
 function Mat() {
     let id: string = "jtatq55nbryd";
-    let count: number = 0;
+    const [count, setCount] = useState(0);
     const [turn, setTurn] = useState(0);
     const crazy: string[] = ["ACE", "JACK", "KING", "QUEEN"]
     const [hand, setHand] = useState([{ src: "", value: "", suit: "" }]);
@@ -34,7 +34,7 @@ function Mat() {
     }
 
     function assignCount(data: any) {
-        count = data.remaining as unknown as number;
+        setCount(data.remaining as unknown as number);
     }
 
 
@@ -55,12 +55,6 @@ function Mat() {
 
     function addPile(index: number, player: number) {
         if (turn === player) {
-            if (turn < 3) {
-                setTurn(turn + 1);
-            }
-            else {
-                setTurn(0);
-            }
             let eligible: boolean = false;
             let handSrc = "";
             let handValue = "";
@@ -97,11 +91,18 @@ function Mat() {
                 }
             }
             if (eligible === true) {
+                if (turn < 3) {
+                    setTurn(turn + 1);
+                }
+                else {
+                    setTurn(0);
+                }
                 if (player === 0) {
                     setPile([{ src: handSrc, value: handValue, suit: handSuit }])
                     let placeholder = [...hand];
                     placeholder.splice(index, 1);
                     setHand(placeholder);
+                    aiLoop1();
                 }
                 else if (player === 1) {
                     setPile([{ src: handSrc, value: handValue, suit: handSuit }])
@@ -126,12 +127,14 @@ function Mat() {
     }
 
     function draw(player: number) {
-        fetch("https://www.deckofcardsapi.com/api/deck/" + id + "/draw/?count=1")
-            .then((response) => response.json())
-            .then((data) => {
-                assignHand(data, player)
-                assignCount(data)
-            })
+        if (turn === player) {
+            fetch("https://www.deckofcardsapi.com/api/deck/" + id + "/draw/?count=1")
+                .then((response) => response.json())
+                .then((data) => {
+                    assignHand(data, player)
+                    assignCount(data)
+                })
+        }
     }
 
     function assignHand(data: any, player: number) {
@@ -139,14 +142,24 @@ function Mat() {
             setHand(hand => [...hand, { src: data.cards[0].image, value: data.cards[0].value, suit: data.cards[0].suit }]);
         }
         else if (player === 1) {
-            setHand(hand => [...hand1, { src: data.cards[0].image, value: data.cards[0].value, suit: data.cards[0].suit }]);
+            setHand1(hand1 => [...hand1, { src: data.cards[0].image, value: data.cards[0].value, suit: data.cards[0].suit }]);
         }
         else if (player === 2) {
-            setHand(hand => [...hand2, { src: data.cards[0].image, value: data.cards[0].value, suit: data.cards[0].suit }]);
+            setHand2(hand2 => [...hand2, { src: data.cards[0].image, value: data.cards[0].value, suit: data.cards[0].suit }]);
         }
         else if (player === 3) {
-            setHand(hand => [...hand3, { src: data.cards[0].image, value: data.cards[0].value, suit: data.cards[0].suit }]);
+            setHand3(hand3 => [...hand3, { src: data.cards[0].image, value: data.cards[0].value, suit: data.cards[0].suit }]);
         }
+    }
+
+    function aiLoop1() {
+        for (let i: number = 0; i < hand1.length; ++i) {
+            if (hand1[i].suit === pile[0].suit || hand1[i].value === pile[0].value) {
+                addPile(i, 1);
+                break;
+            }
+        }
+        draw(1);
     }
 
     function reShuffle() {
