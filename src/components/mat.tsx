@@ -5,7 +5,7 @@ function Mat() {
     let id: string = "jtatq55nbryd";
     let count: number = 0;
     let turn: number = 0;
-    const crazy: string[] = ["ace", "jack", "king", "queen"]
+    const crazy: string[] = ["ACE", "JACK", "KING", "QUEEN"]
     const [hand, setHand] = useState([{ src: "", value: "", suit: "" }]);
     const [hand1, setHand1] = useState([{ src: "", value: "", suit: "" }]);
     const [hand2, setHand2] = useState([{ src: "", value: "", suit: "" }]);
@@ -78,6 +78,7 @@ function Mat() {
             handValue = hand3[index].value;
             handSuit = hand3[index].suit;
         }
+
         if (pile[0].src === "") {
             eligible = true;
         }
