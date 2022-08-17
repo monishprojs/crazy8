@@ -6,3 +6,7 @@ body {
     display: flex;
 
 }
+
+.card:hover {
+    opacity: 0.5;
+}

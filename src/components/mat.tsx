@@ -5,6 +5,7 @@ function Mat() {
     let id: string = "jtatq55nbryd";
     let count: number = 0;
     const [hand, setHand] = useState([{ src: "", value: "", suit: "" }]);
+    const [pile, setPile] = useState([{ src: "", value: "", suit: "" }])
 
     function getData() {
         fetch("https://www.deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1")
@@ -20,7 +21,7 @@ function Mat() {
     }
 
     function draw() {
-        fetch("https://www.deckofcardsapi.com/api/deck/" + id + "/draw/?count=1")
+        fetch("https://www.deckofcardsapi.com/api/deck/" + id + "/draw/?count=5")
             .then((response) => response.json())
             .then((data) => {
                 console.log(data)
@@ -29,7 +30,21 @@ function Mat() {
     }
 
     function assignHand(data: any) {
-        setHand(hand => [...hand, { src: data.cards[0].image, value: data.cards[0].value, suit: data.cards[0].suit }]);
+        for (let i = 0; i < 5; ++i) {
+            setHand(hand => [...hand, { src: data.cards[i].image, value: data.cards[i].value, suit: data.cards[i].suit }]);
+        }
+    }
+
+    function addPile(index: number) {
+        let srcPlace = hand[index].src;
+        let valuePlace = hand[index].value;
+        let suitPlace = hand[index].suit;
+        setPile([{ src: srcPlace, value: valuePlace, suit: suitPlace }])
+
+        let placeholder = [...hand];
+        placeholder.splice(index, 1);
+        setHand(placeholder);
+
     }
 
     function reShuffle() {
@@ -48,10 +63,19 @@ function Mat() {
                 <button onClick={draw}>draw</button>
             </div>
             <div className='items'>
-                {hand.map((card) => {
+                {hand.map((card, index) => {
                     return (
                         <div className="item">
-                            <img src={card.src} alt="" />
+                            <img className='card' onClick={() => addPile(index)} src={card.src} alt="" />
+                        </div>
+                    );
+                })}
+            </div>
+            <div>
+                {pile.map((card) => {
+                    return (
+                        <div className="item">
+                            <img className='card' src={card.src} alt="" />
                         </div>
                     );
                 })}
