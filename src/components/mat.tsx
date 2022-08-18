@@ -27,7 +27,7 @@ function Mat() {
 
     function drawStart() {
         setCount(52);
-        setTurn(turn => 0);
+        setTurn(0);
         setPile(([{ src: "", value: "", suit: "" }]));
         setHand(([{ src: "", value: "", suit: "" }]));
         setHand1(([{ src: "", value: "", suit: "" }]));
@@ -106,7 +106,7 @@ function Mat() {
                     setTurn(turn => turn + 1);
                 }
                 else {
-                    setTurn(turn => 0)
+                    setTurn(0)
                 }
                 setPile([{ src: handSrc, value: handValue, suit: handSuit }]);
                 if (player === 0) {
