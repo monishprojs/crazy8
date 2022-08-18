@@ -1,17 +1,16 @@
-import { click } from '@testing-library/user-event/dist/click';
 import React, { useEffect, useState } from 'react';
 import './mat.css';
 
 function Mat() {
-    const [id, setId] = useState("jtatq55nbryd");
-    const [count, setCount] = useState(0);
-    const [turn, setTurn] = useState(0);
-    const crazy: string[] = ["ACE", "JACK"]
-    const [hand, setHand] = useState([{ src: "", value: "", suit: "" }]);
-    const [hand1, setHand1] = useState([{ src: "", value: "", suit: "" }]);
-    const [hand2, setHand2] = useState([{ src: "", value: "", suit: "" }]);
-    const [hand3, setHand3] = useState([{ src: "", value: "", suit: "" }]);
-    const [pile, setPile] = useState([{ src: "", value: "", suit: "" }]);
+    const [id, setId] = useState("jtatq55nbryd"); //deck id
+    const [count, setCount] = useState(0); //count of cards left in deck
+    const [turn, setTurn] = useState(0); //whose turn it is
+    const crazy: string[] = ["ACE", "JACK"] //cards who can always be added to the pile
+    const [hand, setHand] = useState([{ src: "", value: "", suit: "" }]); //player 0's hand
+    const [hand1, setHand1] = useState([{ src: "", value: "", suit: "" }]); //player 1's hand
+    const [hand2, setHand2] = useState([{ src: "", value: "", suit: "" }]); //player 2's hand
+    const [hand3, setHand3] = useState([{ src: "", value: "", suit: "" }]); //player 3's hand
+    const [pile, setPile] = useState([{ src: "", value: "", suit: "" }]); //current card on the pile
 
     /**
      * used to get deck id, not currently in use as deck id remains unlike a standard api call, 
