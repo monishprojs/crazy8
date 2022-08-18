@@ -1,3 +1,4 @@
+import { click } from '@testing-library/user-event/dist/click';
 import React, { useEffect, useState } from 'react';
 import './mat.css';
 
@@ -67,22 +68,22 @@ function Mat() {
             let handSrc = "";
             let handValue = "";
             let handSuit = "";
-            if (player === 0) {
+            if (turn === 0) {
                 handSrc = hand[index].src;
                 handValue = hand[index].value;
                 handSuit = hand[index].suit;
             }
-            else if (player === 1) {
+            else if (turn === 1) {
                 handSrc = hand1[index].src;
                 handValue = hand1[index].value;
                 handSuit = hand1[index].suit;
             }
-            else if (player === 2) {
+            else if (turn === 2) {
                 handSrc = hand2[index].src;
                 handValue = hand2[index].value;
                 handSuit = hand2[index].suit;
             }
-            else if (player === 3) {
+            else if (turn === 3) {
                 handSrc = hand3[index].src;
                 handValue = hand3[index].value;
                 handSuit = hand3[index].suit;
@@ -151,13 +152,10 @@ function Mat() {
                         }
                     }
                 }
-                return true;
-            }
-            else {
-                return false;
             }
         }
     }
+
 
     function draw(player: number) {
         if (player === turn) {
@@ -165,7 +163,6 @@ function Mat() {
                 .then((response) => response.json())
                 .then((data) => {
                     assignHand(data, player)
-                    assignCount(data)
                 })
         }
     }
@@ -209,7 +206,7 @@ function Mat() {
                 {hand2.map((card, index) => {
                     return (
                         <div className="item">
-                            <img className='card' onClick={() => addPile(index, 2)} src={card.src} alt="" />
+                            <img className='card img2' onClick={() => addPile(index, 2)} src={card.src} alt="" />
                         </div>
                     );
                 })}
@@ -223,7 +220,7 @@ function Mat() {
                 {hand1.map((card, index) => {
                     return (
                         <div className="item">
-                            <img className='card flipped' onClick={() => addPile(index, 1)} src={card.src} alt="" />
+                            <img className='card flipped img1' onClick={() => addPile(index, 1)} src={card.src} alt="" />
                         </div>
                     );
                 })}
@@ -232,7 +229,7 @@ function Mat() {
                 {hand3.map((card, index) => {
                     return (
                         <div className="item">
-                            <img className='card flipped' onClick={() => addPile(index, 3)} src={card.src} alt="" />
+                            <img className='card flipped img3' onClick={() => addPile(index, 3)} src={card.src} alt="" />
                         </div>
                     );
                 })}
@@ -245,7 +242,7 @@ function Mat() {
                 {hand.map((card, index) => {
                     return (
                         <div className="item">
-                            <img className='card' onClick={() => addPile(index, 0)} src={card.src} alt="" />
+                            <img className='card img' onClick={() => addPile(index, 0)} src={card.src} alt="" />
                         </div>
                     );
                 })}
