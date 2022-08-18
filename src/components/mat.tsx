@@ -34,6 +34,13 @@ function Mat() {
         setId(data.deck_id)
     }
 
+    /**
+    * returns all cards to the deck and reshuffles the deck
+    */
+    function reShuffle() {
+        fetch("https://www.deckofcardsapi.com/api/deck/" + id + "/return/");
+        fetch("https://www.deckofcardsapi.com/api/deck/" + id + "/shuffle/");
+    }
 
     /**
      * handles the drawing the starting hand for four players
@@ -50,7 +57,6 @@ function Mat() {
         fetch("https://www.deckofcardsapi.com/api/deck/" + id + "/draw/?count=20")
             .then((response) => response.json())
             .then((data) => {
-                console.log(data)
                 assignStartingHand(data)
                 assignCount(data)
             })
@@ -230,16 +236,8 @@ function Mat() {
         }
     }
 
-    /**
-     * reshuffles the deck
-     */
-    function reShuffle() {
-        fetch("https://www.deckofcardsapi.com/api/deck/" + id + "/return/");
-        fetch("https://www.deckofcardsapi.com/api/deck/" + id + "/shuffle/");
-    }
-
     useEffect(() => {
-        (document.getElementsByClassName('start')[0] as HTMLElement).click();
+        drawStart();
     }, [])
     return (
         <div className="mat">
