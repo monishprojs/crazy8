@@ -1,5 +1,5 @@
 Desktop Screenshot:
-![alt text]([desktopCrazy8.png](https://github.com/monishprojs/crazy8/blob/a4f201e354e35f9fef89db5dee74176c417e25a2/desktopCrazy8.png))
+![alt text]((https://github.com/monishprojs/crazy8/blob/a4f201e354e35f9fef89db5dee74176c417e25a2/desktopCrazy8.png))
 
 Important Notes:
 Before building, in the index.tsx file uncomment the <React.StrictMode> before building, I only turned it off for the sake of useEffect() in my dev environment.
