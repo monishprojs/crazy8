@@ -26,6 +26,7 @@ function Mat() {
 
 
     function drawStart() {
+        setCount(52);
         setTurn(turn => 0);
         setPile(([{ src: "", value: "", suit: "" }]));
         setHand(([{ src: "", value: "", suit: "" }]));
