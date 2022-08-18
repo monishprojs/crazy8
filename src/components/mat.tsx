@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import './mat.css';
 
 function Mat() {
-    let id: string = "jtatq55nbryd";
+    const [id, setId] = useState("jtatq55nbryd");
     const [count, setCount] = useState(0);
     const [turn, setTurn] = useState(0);
     const crazy: string[] = ["ACE", "JACK"]
@@ -22,7 +22,17 @@ function Mat() {
             .then((response) => response.json())
             .then((data) => {
                 assignCount(data)
+                assignId(data);
             })
+    }
+
+    /**
+     * 
+     * @param data data from first api call to get the deck
+     * assigns the deck id to be used for the game
+     */
+    function assignId(data: any) {
+        setId(data.deck_id)
     }
 
 
