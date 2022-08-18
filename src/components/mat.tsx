@@ -223,7 +223,7 @@ function Mat() {
                 {hand1.map((card, index) => {
                     return (
                         <div className="item">
-                            <img className='card' onClick={() => addPile(index, 1)} src={card.src} alt="" />
+                            <img className='card flipped' onClick={() => addPile(index, 1)} src={card.src} alt="" />
                         </div>
                     );
                 })}
@@ -232,7 +232,7 @@ function Mat() {
                 {hand3.map((card, index) => {
                     return (
                         <div className="item">
-                            <img className='card' onClick={() => addPile(index, 3)} src={card.src} alt="" />
+                            <img className='card flipped' onClick={() => addPile(index, 3)} src={card.src} alt="" />
                         </div>
                     );
                 })}

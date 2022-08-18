@@ -20,15 +20,10 @@ body {
 
 
 .items1 {
-    -webkit-transform: rotate(90deg);
-    -moz-transform: rotate(90deg);
-    -o-transform: rotate(90deg);
-    -ms-transform: rotate(90deg);
-    transform: rotate(90deg);
     position: absolute;
-    display: flex;
-    left: 2%;
-    margin-top: 10vh;
+    display: block;
+    top: 10%;
+    left: 15%;
 }
 
 .items2 {
@@ -39,15 +34,10 @@ body {
 }
 
 .items3 {
-    -webkit-transform: rotate(90deg);
-    -moz-transform: rotate(90deg);
-    -o-transform: rotate(90deg);
-    -ms-transform: rotate(90deg);
-    transform: rotate(90deg);
     position: absolute;
-    right: 2%;
-    margin-top: 10vh;
-    display: flex;
+    top: 10%;
+    right: 15%;
+    display: block;
 }
 
 .info {
@@ -73,6 +63,15 @@ body {
 .card {
     width: 8vw;
     height: auto;
+}
+
+.flipped {
+    -webkit-transform: rotate(90deg);
+    -moz-transform: rotate(90deg);
+    -o-transform: rotate(90deg);
+    -ms-transform: rotate(90deg);
+    transform: rotate(90deg);
+    margin-top: -6.25vh;
 }
 
 .card:hover {
