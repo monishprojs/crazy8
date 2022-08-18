@@ -46,7 +46,7 @@ function Mat() {
         setHand1(([{ src: "", value: "", suit: "" }]));
         setHand2(([{ src: "", value: "", suit: "" }]));
         setHand3(([{ src: "", value: "", suit: "" }]));
-        fetch("https://www.deckofcardsapi.com/api/deck/" + id + "/return/");
+        reShuffle();
         fetch("https://www.deckofcardsapi.com/api/deck/" + id + "/draw/?count=20")
             .then((response) => response.json())
             .then((data) => {
@@ -235,10 +235,11 @@ function Mat() {
      */
     function reShuffle() {
         fetch("https://www.deckofcardsapi.com/api/deck/" + id + "/return/");
+        fetch("https://www.deckofcardsapi.com/api/deck/" + id + "/shuffle/");
     }
 
     useEffect(() => {
-        reShuffle();
+        (document.getElementsByClassName('start')[0] as HTMLElement).click();
     }, [])
     return (
         <div className="mat">
