@@ -14,7 +14,8 @@ function Mat() {
     const [pile, setPile] = useState([{ src: "", value: "", suit: "" }]);
 
     /**
-     * used to get deck id, not currently in use as deck id remains, but may use again later
+     * used to get deck id, not currently in use as deck id remains unlike a standard api call, 
+     * but may use again later
      */
     function getData() {
         fetch("https://www.deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1")
@@ -25,6 +26,9 @@ function Mat() {
     }
 
 
+    /**
+     * handles the drawing the starting hand for four players
+     */
     function drawStart() {
         setCount(52);
         setTurn(0);
@@ -43,11 +47,20 @@ function Mat() {
             })
     }
 
+    /**
+     * 
+     * @param data data from api call
+     * assigns deck count based off data
+     */
     function assignCount(data: any) {
         setCount(data.remaining as unknown as number);
     }
 
-
+    /**
+     * 
+     * @param data data from api call of drawing cards
+     * assigns each plyer 5 cards from the deck
+     */
     function assignStartingHand(data: any) {
         for (let i = 0; i < 5; ++i) {
             setHand(hand => [...hand, { src: data.cards[i].image, value: data.cards[i].value, suit: data.cards[i].suit }]);
@@ -63,6 +76,15 @@ function Mat() {
         }
     }
 
+    /**
+     * 
+     * @param index index of card in players hand
+     * @param player number of player
+     * checks if it's the players turn and if the deck has cards(otherwise the game is over),
+     * if it is the player's turn it then checks if the card is 
+     * eligible to be added to the pile (same value, suit, or is ace/jack),
+     * if valid then adds card to the pile and updates the turn number as well as the player's hand
+     */
     function addPile(index: number, player: number) {
         if (turn === player && count > 0) {
             let eligible: boolean = false;
@@ -157,7 +179,11 @@ function Mat() {
         }
     }
 
-
+    /**
+     * 
+     * @param player player number
+     * calls draw card api call
+     */
     function draw(player: number) {
         if (player === turn) {
             fetch("https://www.deckofcardsapi.com/api/deck/" + id + "/draw/?count=1")
@@ -168,6 +194,12 @@ function Mat() {
         }
     }
 
+    /**
+     * 
+     * @param data data from draw card api call
+     * @param player player whose hand is being added to
+     * adds card to desired player's hand
+     */
     function assignHand(data: any, player: number) {
         if (player === 0) {
             setHand(hand => [...hand, { src: data.cards[0].image, value: data.cards[0].value, suit: data.cards[0].suit }]);
@@ -189,7 +221,9 @@ function Mat() {
         }
     }
 
-
+    /**
+     * reshuffles the deck
+     */
     function reShuffle() {
         fetch("https://www.deckofcardsapi.com/api/deck/" + id + "/return/");
     }
@@ -271,6 +305,10 @@ function Mat() {
                             </div>
                         );
                     })}
+                    <br />
+                </div>
+                <div className='deckLabel'>
+                    Click Deck to Draw
                 </div>
             </div>
         </div>
