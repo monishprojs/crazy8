@@ -205,7 +205,83 @@ body {
     }
 }
 
-@media (min-width: 481px) and (max-width: 896px) {
+@media (min-width: 480px) and (max-width: 820px) {
+    .card {
+        width: 15vw;
+    }
+
+    .start {
+        width: 15vh;
+        height: fit-content;
+        margin-right: 1vw;
+        font-size: 1em;
+    }
+
+    .pile {
+        top: 30%;
+        left: 50%;
+        margin-left: -10vh;
+        margin-top: 15vh;
+    }
+
+    .info {
+        top: 30%;
+        left: 50%;
+        margin-left: -13vh;
+        margin-top: 5vh;
+        font-size: 1.25em;
+    }
+
+    .deckLabel {
+        top: 30%;
+        left: 50%;
+        margin-left: -8vh;
+        margin-top: 30vh;
+        font-size: 1.5em;
+    }
+
+    .flipped {
+        margin-top: -4vh;
+    }
+
+    .items {
+        bottom: 0;
+        margin-top: 62vh;
+    }
+
+
+    .items1 {
+        top: 21%;
+        left: 10%;
+    }
+
+    .items2 {
+        bottom: 0;
+        margin-top: 0vh;
+    }
+
+    .items3 {
+        top: 21%;
+        right: 10%;
+    }
+
+    .label1 {
+        left: 1%;
+        margin-top: 25vh;
+    }
+
+
+    .label3 {
+        right: 1%;
+        margin-top: 25vh;
+    }
+
+    .label0 {
+        margin-top: -21vh;
+    }
+}
+
+@media (min-width: 821px) and (max-width: 896px) {
     .card {
         width: 8vw;
     }
