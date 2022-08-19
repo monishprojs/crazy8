@@ -2,7 +2,7 @@ Desktop Screenshot:
 ![alt text](https://github.com/monishprojs/crazy8/blob/a4f201e354e35f9fef89db5dee74176c417e25a2/desktopCrazy8.png)
 
 Important Notes:
-Before building, in the index.tsx file uncomment the <React.StrictMode> before building, I only turned it off for the sake of useEffect() in my dev environment.
+Before building, in the index.tsx file uncomment the <React.StrictMode> before building, I only turned it off for the sake of useEffect() only loading once in my dev environment.
 
 Game Rules:
 Each player is given a hand. The first player place down a card. The next player has to place down a card with the same suit or value, or otherwise has to draw from the deck, or the game will not proceed. Moreover, jacks and aces act as "crazy8s", in the sense that they can be placed down on top of any card, so keep that in mind when using them, as they will be key to you winning. Speaking of winning, the player whose hand is empty first wins, but if the game gets far enough and the deck runs out, the player with the least amount of cards in their hand wins! I hope y'all have fun playing!

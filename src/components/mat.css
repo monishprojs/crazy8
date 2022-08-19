@@ -211,9 +211,10 @@ body {
     }
 
     .start {
-        width: 10vh;
+        width: 15vh;
         height: fit-content;
         margin-right: 1vw;
+        font-size: 1em;
     }
 
     .pile {
@@ -226,8 +227,9 @@ body {
     .info {
         top: 30%;
         left: 50%;
-        margin-left: -9vh;
+        margin-left: -13vh;
         margin-top: 5vh;
+        font-size: 1.25em;
     }
 
     .deckLabel {
