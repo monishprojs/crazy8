@@ -313,3 +313,62 @@ body {
         margin-top: 45vh;
     }
 }
+
+@media (min-width: 897px) and (max-width: 1180px) {
+    .card {
+        width: 10vw;
+    }
+
+    .start {
+        width: 20vw;
+        height: fit-content;
+        font-size: 1.15em;
+    }
+
+    .info {
+        margin-left: -20vh;
+        margin-top: 5vh;
+        font-size: 1.5em;
+    }
+
+    .pile {
+        margin-left: -10vh;
+        margin-top: 9vh;
+    }
+
+    .deckLabel {
+        margin-left: -45vh;
+        margin-top: 30vh;
+    }
+
+    .items {
+        margin-top: 45vh;
+    }
+
+    .label1 {
+        left: 1%;
+        margin-top: 20vh;
+    }
+
+
+    .label3 {
+        right: 1%;
+        margin-top: 20vh;
+    }
+
+    .items1 {
+        top: 20%;
+        left: 10%;
+    }
+
+    .items3 {
+        top: 20%;
+        right: 10%;
+    }
+
+    .deckLabel {
+        margin-left: -7vh;
+        margin-top: 30vh;
+        font-size: 1.25em;
+    }
+}
