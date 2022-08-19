@@ -135,3 +135,72 @@ body {
 .win3 {
     display: none;
 }
+
+@media (max-width: 480px) {
+    .card {
+        width: 15vw;
+    }
+
+    .start {
+        width: 10vh;
+        height: fit-content;
+        margin-right: 1vw;
+    }
+
+    .pile {
+        top: 30%;
+        left: 50%;
+        margin-left: -5vh;
+        margin-top: -1vh;
+    }
+
+    .info {
+        top: 30%;
+        left: 50%;
+        margin-left: -9vh;
+        margin-top: -9vh;
+    }
+
+    .deckLabel {
+        top: 30%;
+        left: 50%;
+        margin-left: -7vh;
+        margin-top: 10vh;
+    }
+
+    .flipped {
+        margin-top: -3vh;
+    }
+
+    .items {
+        bottom: 0;
+        margin-top: 70vh;
+    }
+
+
+    .items1 {
+        top: 45%;
+        left: 15%;
+    }
+
+    .items2 {
+        bottom: 0;
+        margin-top: 0vh;
+    }
+
+    .items3 {
+        top: 45%;
+        right: 15%;
+    }
+
+    .label1 {
+        left: 1%;
+        margin-top: 45vh;
+    }
+
+
+    .label3 {
+        right: 1%;
+        margin-top: 45vh;
+    }
+}
