@@ -91,6 +91,7 @@ function Mat() {
             placeholder.splice(0, 1)
             setHand3(placeholder);
         }
+        console.log(data);
         for (let i = 0; i < 5; ++i) {
             setHand(hand => [...hand, { src: data.cards[i].image, value: data.cards[i].value, suit: data.cards[i].suit }]);
         }
@@ -163,7 +164,7 @@ function Mat() {
                     let placeholder = [...hand];
                     placeholder.splice(index, 1);
                     setHand(placeholder);
-                    if (placeholder.length === 1) {
+                    if (placeholder.length === 0) {
                         let win = document.getElementById("win");
                         if (win != null) {
                             win.style.display = "inline-block";
@@ -174,7 +175,7 @@ function Mat() {
                     let placeholder = [...hand1];
                     placeholder.splice(index, 1);
                     setHand1(placeholder);
-                    if (placeholder.length === 1) {
+                    if (placeholder.length === 0) {
                         let win = document.getElementById("win1");
                         if (win != null) {
                             win.style.display = "inline-block";
@@ -185,7 +186,7 @@ function Mat() {
                     let placeholder = [...hand2];
                     placeholder.splice(index, 1);
                     setHand2(placeholder);
-                    if (placeholder.length === 1) {
+                    if (placeholder.length === 0) {
                         let win = document.getElementById("win2");
                         if (win != null) {
                             win.style.display = "inline-block";
@@ -196,7 +197,7 @@ function Mat() {
                     let placeholder = [...hand3];
                     placeholder.splice(index, 1);
                     setHand3(placeholder);
-                    if (placeholder.length === 1) {
+                    if (placeholder.length === 0) {
                         let win = document.getElementById("win3");
                         if (win != null) {
                             win.style.display = "inline-block";
@@ -217,7 +218,8 @@ function Mat() {
             fetch("https://www.deckofcardsapi.com/api/deck/" + id + "/draw/?count=1")
                 .then((response) => response.json())
                 .then((data) => {
-                    assignHand(data, player)
+                    assignHand(data, player);
+                    console.log(data);
                 })
         }
     }
@@ -246,7 +248,7 @@ function Mat() {
             setTurn(turn => turn + 1)
         }
         else {
-            setTurn(turn => 0)
+            setTurn(0)
         }
     }
 
