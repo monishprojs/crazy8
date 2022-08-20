@@ -215,7 +215,7 @@ function Mat() {
      * adds card to desired player's hand
      */
     function assignHand(data: any, player: number) {
-        setCount(count => count - 1);
+        setCount(data.remaining);
         if (player === 0) {
             setHand(hand => [...hand, { src: data.cards[0].image, value: data.cards[0].value, suit: data.cards[0].suit }]);
         }
