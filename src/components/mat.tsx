@@ -1,3 +1,4 @@
+import { lookup } from 'dns';
 import React, { useEffect, useState } from 'react';
 import './mat.css';
 
@@ -77,18 +78,47 @@ function Mat() {
      * assigns each plyer 5 cards from the deck
      */
     function assignStartingHand(data: any) {
+        let clearedInitial: boolean = false; //use this variable to get rid of the intial empty placeholder values in the react hook for the hands
         for (let i = 0; i < 5; ++i) {
-            setHand(hand => [...hand, { src: data.cards[i].image, value: data.cards[i].value, suit: data.cards[i].suit }]);
+            if (hand.length === 1 && clearedInitial === false) {
+                setHand([{ src: data.cards[i].image, value: data.cards[i].value, suit: data.cards[i].suit }]);
+                clearedInitial = true;
+            }
+            else {
+                setHand(hand => [...hand, { src: data.cards[i].image, value: data.cards[i].value, suit: data.cards[i].suit }]);
+            }
         }
+        clearedInitial = false;
         for (let i = 5; i < 10; ++i) {
-            setHand1(hand1 => [...hand1, { src: data.cards[i].image, value: data.cards[i].value, suit: data.cards[i].suit }]);
+            if (hand1.length === 1 && clearedInitial === false) {
+                setHand1([{ src: data.cards[i].image, value: data.cards[i].value, suit: data.cards[i].suit }]);
+                clearedInitial = true;
+            }
+            else {
+                setHand1(hand => [...hand, { src: data.cards[i].image, value: data.cards[i].value, suit: data.cards[i].suit }]);
+            }
         }
+        clearedInitial = false;
         for (let i = 10; i < 15; ++i) {
-            setHand2(hand2 => [...hand2, { src: data.cards[i].image, value: data.cards[i].value, suit: data.cards[i].suit }]);
+            if (hand2.length === 1 && clearedInitial === false) {
+                setHand2([{ src: data.cards[i].image, value: data.cards[i].value, suit: data.cards[i].suit }]);
+                clearedInitial = true;
+            }
+            else {
+                setHand2(hand => [...hand, { src: data.cards[i].image, value: data.cards[i].value, suit: data.cards[i].suit }]);
+            }
         }
+        clearedInitial = false;
         for (let i = 15; i < 20; ++i) {
-            setHand3(hand3 => [...hand3, { src: data.cards[i].image, value: data.cards[i].value, suit: data.cards[i].suit }]);
+            if (hand3.length === 1 && clearedInitial === false) {
+                setHand3([{ src: data.cards[i].image, value: data.cards[i].value, suit: data.cards[i].suit }]);
+                clearedInitial = true;
+            }
+            else {
+                setHand3(hand => [...hand, { src: data.cards[i].image, value: data.cards[i].value, suit: data.cards[i].suit }]);
+            }
         }
+        console.log(hand.length);
     }
 
     /**
@@ -101,7 +131,7 @@ function Mat() {
      * if valid then adds card to the pile and updates the turn number as well as the player's hand
      */
     function addPile(index: number, player: number) {
-        if (turn === player && count > 0) {
+        if (count > 0) {
             let eligible: boolean = false;
             let handSrc = "";
             let handValue = "";
@@ -149,7 +179,8 @@ function Mat() {
                     let placeholder = [...hand];
                     placeholder.splice(index, 1);
                     setHand(placeholder);
-                    if (placeholder.length === 1) {
+                    loop();
+                    if (placeholder.length === 0) {
                         let win = document.getElementById("win");
                         if (win != null) {
                             win.style.display = "inline-block";
@@ -160,7 +191,7 @@ function Mat() {
                     let placeholder = [...hand1];
                     placeholder.splice(index, 1);
                     setHand1(placeholder);
-                    if (placeholder.length === 1) {
+                    if (placeholder.length === 0) {
                         let win = document.getElementById("win1");
                         if (win != null) {
                             win.style.display = "inline-block";
@@ -171,7 +202,7 @@ function Mat() {
                     let placeholder = [...hand2];
                     placeholder.splice(index, 1);
                     setHand2(placeholder);
-                    if (placeholder.length === 1) {
+                    if (placeholder.length === 0) {
                         let win = document.getElementById("win2");
                         if (win != null) {
                             win.style.display = "inline-block";
@@ -182,7 +213,7 @@ function Mat() {
                     let placeholder = [...hand3];
                     placeholder.splice(index, 1);
                     setHand3(placeholder);
-                    if (placeholder.length === 1) {
+                    if (placeholder.length === 0) {
                         let win = document.getElementById("win3");
                         if (win != null) {
                             win.style.display = "inline-block";
@@ -191,6 +222,40 @@ function Mat() {
                 }
             }
         }
+    }
+
+    function isValid(player: number, index: number) {
+        let pileValue = pile[0].value;
+        let pileSuit = pile[0].suit;
+        let handValue = '';
+        let handSuit = '';
+        if (player === 0) {
+            handValue = hand[index].value;
+            handSuit = hand[index].suit;
+        }
+        else if (player === 1) {
+            handValue = hand1[index].value;
+            handSuit = hand1[index].suit;
+        }
+        else if (player === 2) {
+            handValue = hand2[index].value;
+            handSuit = hand2[index].suit;
+        }
+        if (player === 3) {
+            handValue = hand3[index].value;
+            handSuit = hand3[index].suit;
+        }
+
+        if (handValue === pileValue || pileSuit === handSuit || crazy.includes(handValue)) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    function loop() {
+
     }
 
     /**
