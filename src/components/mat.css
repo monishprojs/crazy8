@@ -106,7 +106,7 @@ body {
 .label1 {
     position: absolute;
     left: 5%;
-    margin-top: 20vh;
+    margin-top: 15vh;
 }
 
 .label2 {
@@ -117,7 +117,7 @@ body {
 .label3 {
     position: absolute;
     right: 5%;
-    margin-top: 20vh;
+    margin-top: 15vh;
 }
 
 .win {
