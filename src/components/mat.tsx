@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import './mat.css';
 
 function Mat() {
-    const [id, setId] = useState("jtatq55nbryd"); //deck id
+    const [id, setId] = useState("l1sswc39sb10"); //deck id
     const [count, setCount] = useState(0); //count of cards left in deck
     const [turn, setTurn] = useState(0); //whose turn it is
     const crazy: string[] = ["ACE", "JACK"] //cards who can always be added to the pile
@@ -11,6 +11,7 @@ function Mat() {
     const [hand2, setHand2] = useState([{ src: "", value: "", suit: "" }]); //player 2's hand
     const [hand3, setHand3] = useState([{ src: "", value: "", suit: "" }]); //player 3's hand
     const [pile, setPile] = useState([{ src: "", value: "", suit: "" }]); //current card on the pile
+    const [deck, setDeck] = useState([{ src: "", value: "", suit: "" }]);
 
     /**
      * used to get deck id, not currently in use as deck id remains unlike a standard api call, 
@@ -20,7 +21,6 @@ function Mat() {
         fetch("https://www.deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1")
             .then((response) => response.json())
             .then((data) => {
-                assignCount(data)
                 assignId(data);
             })
     }
@@ -46,30 +46,21 @@ function Mat() {
      * handles the drawing the starting hand for four players
      */
     function drawStart(first: boolean) {
-        setCount(52);
         setTurn(0);
+        setDeck(([{ src: "", value: "", suit: "" }]));
         setPile(([{ src: "", value: "", suit: "" }]));
         setHand(([{ src: "", value: "", suit: "" }]));
         setHand1(([{ src: "", value: "", suit: "" }]));
         setHand2(([{ src: "", value: "", suit: "" }]));
         setHand3(([{ src: "", value: "", suit: "" }]));
         reShuffle();
-        fetch("https://www.deckofcardsapi.com/api/deck/" + id + "/draw/?count=20")
+        fetch("https://www.deckofcardsapi.com/api/deck/" + id + "/draw/?count=52")
             .then((response) => response.json())
             .then((data) => {
                 assignStartingHand(data, first)
-                assignCount(data)
             })
     }
 
-    /**
-     * 
-     * @param data data from api call
-     * assigns deck count based off data
-     */
-    function assignCount(data: any) {
-        setCount(data.remaining as unknown as number);
-    }
 
     /**
      * 
@@ -90,6 +81,9 @@ function Mat() {
             placeholder = [...hand3];
             placeholder.splice(0, 1)
             setHand3(placeholder);
+            placeholder = [...deck];
+            placeholder.splice(0, 1)
+            setDeck(placeholder);
         }
         console.log(data);
         for (let i = 0; i < 5; ++i) {
@@ -104,6 +98,10 @@ function Mat() {
         for (let i = 15; i < 20; ++i) {
             setHand3(hand3 => [...hand3, { src: data.cards[i].image, value: data.cards[i].value, suit: data.cards[i].suit }]);
         }
+        for (let i = 21; i < 52; ++i) {
+            setDeck(deck => [...deck, { src: data.cards[i].image, value: data.cards[i].value, suit: data.cards[i].suit }]);
+        }
+        setCount(32);
     }
 
     /**
@@ -211,46 +209,38 @@ function Mat() {
     /**
      * 
      * @param player player number
-     * calls draw card api call
+     * draws from the deck
      */
     function draw(player: number) {
-        if (player === turn) {
-            fetch("https://www.deckofcardsapi.com/api/deck/" + id + "/draw/?count=1")
-                .then((response) => response.json())
-                .then((data) => {
-                    assignHand(data, player);
-                    console.log(data);
-                })
+        if (player === turn && count > 0) {
+            let deckImage = deck[0].src;
+            let deckSuit = deck[0].suit;
+            let deckValue = deck[0].value;
+            if (player === 0) {
+                setHand(hand => [...hand, { src: deckImage, value: deckValue, suit: deckSuit }]);
+            }
+            else if (player === 1) {
+                setHand1(hand1 => [...hand1, { src: deckImage, value: deckValue, suit: deckSuit }]);
+            }
+            else if (player === 2) {
+                setHand2(hand2 => [...hand2, { src: deckImage, value: deckValue, suit: deckSuit }]);
+            }
+            else if (player === 3) {
+                setHand3(hand3 => [...hand3, { src: deckImage, value: deckValue, suit: deckSuit }]);
+            }
+            if (turn < 3) {
+                setTurn(turn => turn + 1)
+            }
+            else {
+                setTurn(0)
+            }
+            let placeholder = [...deck];
+            placeholder.splice(0, 1)
+            setDeck(placeholder);
+            setCount(deck.length - 1);
         }
     }
 
-    /**
-     * 
-     * @param data data from draw card api call
-     * @param player player whose hand is being added to
-     * adds card to desired player's hand
-     */
-    function assignHand(data: any, player: number) {
-        setCount(data.remaining);
-        if (player === 0) {
-            setHand(hand => [...hand, { src: data.cards[0].image, value: data.cards[0].value, suit: data.cards[0].suit }]);
-        }
-        else if (player === 1) {
-            setHand1(hand1 => [...hand1, { src: data.cards[0].image, value: data.cards[0].value, suit: data.cards[0].suit }]);
-        }
-        else if (player === 2) {
-            setHand2(hand2 => [...hand2, { src: data.cards[0].image, value: data.cards[0].value, suit: data.cards[0].suit }]);
-        }
-        else if (player === 3) {
-            setHand3(hand3 => [...hand3, { src: data.cards[0].image, value: data.cards[0].value, suit: data.cards[0].suit }]);
-        }
-        if (turn < 3) {
-            setTurn(turn => turn + 1)
-        }
-        else {
-            setTurn(0)
-        }
-    }
 
     useEffect(() => {
         drawStart(true);
