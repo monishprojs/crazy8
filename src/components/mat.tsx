@@ -35,10 +35,16 @@ function Mat() {
     }
 
     /**
+     * adds allt he cards back to the deck
+     */
+    function addBack() {
+        fetch("https://www.deckofcardsapi.com/api/deck/" + id + "/return/");
+    }
+
+    /**
     * returns all cards to the deck and reshuffles the deck
     */
     function reShuffle() {
-        fetch("https://www.deckofcardsapi.com/api/deck/" + id + "/return/");
         fetch("https://www.deckofcardsapi.com/api/deck/" + id + "/shuffle/");
     }
 
@@ -53,6 +59,7 @@ function Mat() {
         setHand1(([{ src: "", value: "", suit: "" }]));
         setHand2(([{ src: "", value: "", suit: "" }]));
         setHand3(([{ src: "", value: "", suit: "" }]));
+        addBack();
         reShuffle();
         fetch("https://www.deckofcardsapi.com/api/deck/" + id + "/draw/?count=52")
             .then((response) => response.json())
