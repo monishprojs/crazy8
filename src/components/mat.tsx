@@ -45,7 +45,7 @@ function Mat() {
     /**
      * handles the drawing the starting hand for four players
      */
-    function drawStart() {
+    function drawStart(first: boolean) {
         setCount(52);
         setTurn(0);
         setPile(([{ src: "", value: "", suit: "" }]));
@@ -57,7 +57,7 @@ function Mat() {
         fetch("https://www.deckofcardsapi.com/api/deck/" + id + "/draw/?count=20")
             .then((response) => response.json())
             .then((data) => {
-                assignStartingHand(data)
+                assignStartingHand(data, first)
                 assignCount(data)
             })
     }
@@ -76,20 +76,21 @@ function Mat() {
      * @param data data from api call of drawing cards
      * assigns each plyer 5 cards from the deck
      */
-    function assignStartingHand(data: any) {
-        let placeholder = [...hand];
-        placeholder.splice(0, 1)
-        setHand(placeholder);
-        placeholder = [...hand1];
-        placeholder.splice(0, 1)
-        setHand1(placeholder);
-        placeholder = [...hand2];
-        placeholder.splice(0, 1)
-        setHand2(placeholder);
-        placeholder = [...hand3];
-        placeholder.splice(0, 1)
-        setHand3(placeholder);
-        console.log(data);
+    function assignStartingHand(data: any, first: boolean) {
+        if (first === true) {
+            let placeholder = [...hand];
+            placeholder.splice(0, 1)
+            setHand(placeholder);
+            placeholder = [...hand1];
+            placeholder.splice(0, 1)
+            setHand1(placeholder);
+            placeholder = [...hand2];
+            placeholder.splice(0, 1)
+            setHand2(placeholder);
+            placeholder = [...hand3];
+            placeholder.splice(0, 1)
+            setHand3(placeholder);
+        }
         for (let i = 0; i < 5; ++i) {
             setHand(hand => [...hand, { src: data.cards[i].image, value: data.cards[i].value, suit: data.cards[i].suit }]);
         }
@@ -228,7 +229,7 @@ function Mat() {
      * adds card to desired player's hand
      */
     function assignHand(data: any, player: number) {
-        console.log(data);
+        setCount(data.remaining);
         if (player === 0) {
             setHand(hand => [...hand, { src: data.cards[0].image, value: data.cards[0].value, suit: data.cards[0].suit }]);
         }
@@ -245,12 +246,12 @@ function Mat() {
             setTurn(turn => turn + 1)
         }
         else {
-            setTurn(0)
+            setTurn(turn => 0)
         }
     }
 
     useEffect(() => {
-        drawStart();
+        drawStart(true);
     }, [])
     return (
         <div className="mat">
@@ -309,7 +310,7 @@ function Mat() {
                 </div></div>
             <div>
                 <div className='info'>
-                    <button className="start" onClick={() => drawStart()}>New Game <br /> (Click to Start)</button>
+                    <button className="start" onClick={() => drawStart(false)}>New Game <br /> (Click to Start)</button>
                     <p className='turn'>
                         Turn: P{turn}
                         <br />
