@@ -1,4 +1,3 @@
-import { lookup } from 'dns';
 import React, { useEffect, useState } from 'react';
 import './mat.css';
 
@@ -12,6 +11,15 @@ function Mat() {
     const [hand2, setHand2] = useState([{ src: "", value: "", suit: "" }]); //player 2's hand
     const [hand3, setHand3] = useState([{ src: "", value: "", suit: "" }]); //player 3's hand
     const [pile, setPile] = useState([{ src: "", value: "", suit: "" }]); //current card on the pile
+
+    /**
+     * 
+     * @param ms milleseconds to be delayed
+     * @returns a delay in milliseconds
+     */
+    function delay(ms: number) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
 
     /**
      * used to get deck id, not currently in use as deck id remains unlike a standard api call, 
@@ -78,47 +86,31 @@ function Mat() {
      * assigns each plyer 5 cards from the deck
      */
     function assignStartingHand(data: any) {
-        let clearedInitial: boolean = false; //use this variable to get rid of the intial empty placeholder values in the react hook for the hands
+        let placeholder = [...hand];
+        placeholder.splice(0, 1)
+        setHand(placeholder);
+        placeholder = [...hand1];
+        placeholder.splice(0, 1)
+        setHand1(placeholder);
+        placeholder = [...hand2];
+        placeholder.splice(0, 1)
+        setHand2(placeholder);
+        placeholder = [...hand3];
+        placeholder.splice(0, 1)
+        setHand3(placeholder);
         for (let i = 0; i < 5; ++i) {
-            if (hand.length === 1 && clearedInitial === false) {
-                setHand([{ src: data.cards[i].image, value: data.cards[i].value, suit: data.cards[i].suit }]);
-                clearedInitial = true;
-            }
-            else {
-                setHand(hand => [...hand, { src: data.cards[i].image, value: data.cards[i].value, suit: data.cards[i].suit }]);
-            }
+            setHand(hand => [...hand, { src: data.cards[i].image, value: data.cards[i].value, suit: data.cards[i].suit }]);
+            console.log(hand.length);
         }
-        clearedInitial = false;
         for (let i = 5; i < 10; ++i) {
-            if (hand1.length === 1 && clearedInitial === false) {
-                setHand1([{ src: data.cards[i].image, value: data.cards[i].value, suit: data.cards[i].suit }]);
-                clearedInitial = true;
-            }
-            else {
-                setHand1(hand => [...hand, { src: data.cards[i].image, value: data.cards[i].value, suit: data.cards[i].suit }]);
-            }
+            setHand1(hand1 => [...hand1, { src: data.cards[i].image, value: data.cards[i].value, suit: data.cards[i].suit }]);
         }
-        clearedInitial = false;
         for (let i = 10; i < 15; ++i) {
-            if (hand2.length === 1 && clearedInitial === false) {
-                setHand2([{ src: data.cards[i].image, value: data.cards[i].value, suit: data.cards[i].suit }]);
-                clearedInitial = true;
-            }
-            else {
-                setHand2(hand => [...hand, { src: data.cards[i].image, value: data.cards[i].value, suit: data.cards[i].suit }]);
-            }
+            setHand2(hand2 => [...hand2, { src: data.cards[i].image, value: data.cards[i].value, suit: data.cards[i].suit }]);
         }
-        clearedInitial = false;
         for (let i = 15; i < 20; ++i) {
-            if (hand3.length === 1 && clearedInitial === false) {
-                setHand3([{ src: data.cards[i].image, value: data.cards[i].value, suit: data.cards[i].suit }]);
-                clearedInitial = true;
-            }
-            else {
-                setHand3(hand => [...hand, { src: data.cards[i].image, value: data.cards[i].value, suit: data.cards[i].suit }]);
-            }
+            setHand3(hand3 => [...hand3, { src: data.cards[i].image, value: data.cards[i].value, suit: data.cards[i].suit }]);
         }
-        console.log(hand.length);
     }
 
     /**
@@ -130,7 +122,7 @@ function Mat() {
      * eligible to be added to the pile (same value, suit, or is ace/jack),
      * if valid then adds card to the pile and updates the turn number as well as the player's hand
      */
-    function addPile(index: number, player: number) {
+    function addPile(player: number, index: number) {
         if (count > 0) {
             let eligible: boolean = false;
             let handSrc = "";
@@ -179,7 +171,6 @@ function Mat() {
                     let placeholder = [...hand];
                     placeholder.splice(index, 1);
                     setHand(placeholder);
-                    loop();
                     if (placeholder.length === 0) {
                         let win = document.getElementById("win");
                         if (win != null) {
@@ -227,6 +218,7 @@ function Mat() {
     function isValid(player: number, index: number) {
         let pileValue = pile[0].value;
         let pileSuit = pile[0].suit;
+        console.log(pileValue);
         let handValue = '';
         let handSuit = '';
         if (player === 0) {
@@ -241,7 +233,7 @@ function Mat() {
             handValue = hand2[index].value;
             handSuit = hand2[index].suit;
         }
-        if (player === 3) {
+        else if (player === 3) {
             handValue = hand3[index].value;
             handSuit = hand3[index].suit;
         }
@@ -255,6 +247,22 @@ function Mat() {
     }
 
     function loop() {
+        (async () => {
+            await delay(3000);
+        })();
+        let drawReady: boolean = true;
+        for (let i: number = 0; i < hand1.length; ++i) {
+            console.log(i);
+            console.log(isValid(1, i));
+            if (isValid(1, i)) {
+                addPile(1, i);
+                i = hand.length;
+                drawReady = false;
+            }
+        }
+        if (drawReady === true) {
+            draw(1);
+        }
 
     }
 
@@ -264,7 +272,16 @@ function Mat() {
      * calls draw card api call
      */
     function draw(player: number) {
-        if (player === turn) {
+        if (player === 0) {
+            if (player === turn) {
+                fetch("https://www.deckofcardsapi.com/api/deck/" + id + "/draw/?count=1")
+                    .then((response) => response.json())
+                    .then((data) => {
+                        assignHand(data, player)
+                    })
+            }
+        }
+        else {
             fetch("https://www.deckofcardsapi.com/api/deck/" + id + "/draw/?count=1")
                 .then((response) => response.json())
                 .then((data) => {
@@ -314,7 +331,7 @@ function Mat() {
                 {hand2.map((card, index) => {
                     return (
                         <div className="item">
-                            <img className='card img2' onClick={() => addPile(index, 2)} src={card.src} alt="" />
+                            <img className='card img2' onClick={() => addPile(2, index)} src={card.src} alt="" />
                         </div>
                     );
                 })}
@@ -328,7 +345,7 @@ function Mat() {
                 {hand1.map((card, index) => {
                     return (
                         <div className="item">
-                            <img className='card flipped img1' onClick={() => addPile(index, 1)} src={card.src} alt="" />
+                            <img className='card flipped img1' onClick={() => addPile(1, index)} src={card.src} alt="" />
                         </div>
                     );
                 })}
@@ -337,7 +354,7 @@ function Mat() {
                 {hand3.map((card, index) => {
                     return (
                         <div className="item">
-                            <img className='card flipped img3' onClick={() => addPile(index, 3)} src={card.src} alt="" />
+                            <img className='card flipped img3' onClick={() => addPile(3, index)} src={card.src} alt="" />
                         </div>
                     );
                 })}
@@ -350,7 +367,7 @@ function Mat() {
                 {hand.map((card, index) => {
                     return (
                         <div className="item">
-                            <img className='card img' onClick={() => addPile(index, 0)} src={card.src} alt="" />
+                            <img className='card img' onClick={() => addPile(0, index)} src={card.src} alt="" />
                         </div>
                     );
                 })}
