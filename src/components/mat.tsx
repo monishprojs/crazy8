@@ -105,7 +105,7 @@ function Mat() {
         for (let i = 15; i < 20; ++i) {
             setHand3(hand3 => [...hand3, { src: data.cards[i].image, value: data.cards[i].value, suit: data.cards[i].suit }]);
         }
-        for (let i = 21; i < 52; ++i) {
+        for (let i = 20; i < 52; ++i) {
             setDeck(deck => [...deck, { src: data.cards[i].image, value: data.cards[i].value, suit: data.cards[i].suit }]);
         }
         setCount(32);
@@ -220,6 +220,7 @@ function Mat() {
      */
     function draw(player: number) {
         if (player === turn && count > 0) {
+            console.log(deck);
             let deckImage = deck[0].src;
             let deckSuit = deck[0].suit;
             let deckValue = deck[0].value;
