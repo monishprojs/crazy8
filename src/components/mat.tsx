@@ -12,6 +12,8 @@ function Mat() {
     const [hand3, setHand3] = useState([{ src: "", value: "", suit: "" }]); //player 3's hand
     const [pile, setPile] = useState([{ src: "", value: "", suit: "" }]); //current card on the pile
     const [deck, setDeck] = useState([{ src: "", value: "", suit: "" }]);
+    const [message, setMessage] = useState("Click Deck to Draw");
+    const [gameStatus, setGameStatus] = useState(true);
 
     /**
      * used to get deck id, not currently in use as deck id remains unlike a standard api call, 
@@ -121,7 +123,7 @@ function Mat() {
      * if valid then adds card to the pile and updates the turn number as well as the player's hand
      */
     function addPile(index: number, player: number) {
-        if (turn === player && count > 0) {
+        if (turn === player && count > 0 && gameStatus === true) {
             let eligible: boolean = false;
             let handSrc = "";
             let handValue = "";
@@ -171,6 +173,8 @@ function Mat() {
                     setHand(placeholder);
                     if (placeholder.length === 0) {
                         let win = document.getElementById("win");
+                        setMessage("Game Over!");
+                        setGameStatus(false);
                         if (win != null) {
                             win.style.display = "inline-block";
                         }
@@ -182,6 +186,8 @@ function Mat() {
                     setHand1(placeholder);
                     if (placeholder.length === 0) {
                         let win = document.getElementById("win1");
+                        setMessage("Game Over!");
+                        setGameStatus(false);
                         if (win != null) {
                             win.style.display = "inline-block";
                         }
@@ -193,6 +199,8 @@ function Mat() {
                     setHand2(placeholder);
                     if (placeholder.length === 0) {
                         let win = document.getElementById("win2");
+                        setMessage("Game Over!");
+                        setGameStatus(false);
                         if (win != null) {
                             win.style.display = "inline-block";
                         }
@@ -204,12 +212,21 @@ function Mat() {
                     setHand3(placeholder);
                     if (placeholder.length === 0) {
                         let win = document.getElementById("win3");
+                        setMessage("Game Over!");
+                        setGameStatus(false);
                         if (win != null) {
                             win.style.display = "inline-block";
                         }
                     }
                 }
             }
+            else {
+
+            }
+        }
+        else if (count === 0) {
+            setMessage("Game Over!");
+            setGameStatus(false);
         }
     }
 
@@ -219,7 +236,7 @@ function Mat() {
      * draws from the deck
      */
     function draw(player: number) {
-        if (player === turn && count > 0) {
+        if (player === turn && count > 0 && gameStatus === true) {
             console.log(deck);
             let deckImage = deck[0].src;
             let deckSuit = deck[0].suit;
@@ -244,8 +261,13 @@ function Mat() {
             }
             let placeholder = [...deck];
             placeholder.splice(0, 1)
-            setDeck(placeholder);
+            if (count === 1) {
+                setMessage("Game Over!")
+                setGameStatus(false);
+            }
             setCount(deck.length - 1);
+            setDeck(placeholder);
+
         }
     }
 
@@ -330,7 +352,7 @@ function Mat() {
                     <br />
                 </div>
                 <div className='deckLabel'>
-                    Click Deck to Draw
+                    {message}
                 </div>
             </div>
         </div>
