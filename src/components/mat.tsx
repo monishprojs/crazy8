@@ -172,8 +172,8 @@ function Mat() {
                     placeholder.splice(index, 1);
                     setHand(placeholder);
                     if (placeholder.length === 0) {
-                        let win = document.getElementById("win");
                         setMessage("Game Over!");
+                        let win = document.getElementById("win");
                         setGameStatus(false);
                         if (win != null) {
                             win.style.display = "inline-block";
@@ -185,9 +185,9 @@ function Mat() {
                     placeholder.splice(index, 1);
                     setHand1(placeholder);
                     if (placeholder.length === 0) {
-                        let win = document.getElementById("win1");
                         setMessage("Game Over!");
                         setGameStatus(false);
+                        let win = document.getElementById("win1");
                         if (win != null) {
                             win.style.display = "inline-block";
                         }
@@ -198,9 +198,9 @@ function Mat() {
                     placeholder.splice(index, 1);
                     setHand2(placeholder);
                     if (placeholder.length === 0) {
-                        let win = document.getElementById("win2");
                         setMessage("Game Over!");
                         setGameStatus(false);
+                        let win = document.getElementById("win2");
                         if (win != null) {
                             win.style.display = "inline-block";
                         }
@@ -211,9 +211,9 @@ function Mat() {
                     placeholder.splice(index, 1);
                     setHand3(placeholder);
                     if (placeholder.length === 0) {
-                        let win = document.getElementById("win3");
                         setMessage("Game Over!");
                         setGameStatus(false);
+                        let win = document.getElementById("win3");
                         if (win != null) {
                             win.style.display = "inline-block";
                         }
@@ -277,7 +277,8 @@ function Mat() {
     }, [])
     return (
         <div className="mat">
-            <div className="label label2">P2&nbsp;
+            <div className="label label2">P2
+                <br />
                 <div className='win2' id="win2">
                     wins!
                 </div></div>
@@ -290,7 +291,8 @@ function Mat() {
                     );
                 })}
             </div>
-            <div className="label label1">P1&nbsp;
+            <div className="label label1">P1
+                <br />
                 <div className='win1' id="win1">
                     wins!
                 </div>
@@ -313,7 +315,8 @@ function Mat() {
                     );
                 })}
             </div>
-            <div className='label label3'>P3&nbsp;
+            <div className='label label3'>P3
+                <br />
                 <div className='win3' id="win3">
                     wins!
                 </div></div>
@@ -326,7 +329,8 @@ function Mat() {
                     );
                 })}
             </div>
-            <div className='label label0'>P0&nbsp;
+            <div className='label label0'>P0
+                <br />
                 <div className='win' id="win">
                     wins!
                 </div></div>
