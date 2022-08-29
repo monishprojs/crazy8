@@ -232,6 +232,9 @@ function Mat() {
         }
     }
 
+    /**
+     * sets the winning player based off who has the lowest numbers of cards in their hand
+     */
     function setWin() {
         let min = Math.min(hand.length, hand1.length, hand2.length, hand3.length)
         console.log(5)
