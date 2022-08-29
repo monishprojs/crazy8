@@ -225,8 +225,38 @@ function Mat() {
             }
         }
         else if (count === 0) {
+            setWin()
             setMessage("Game Over!");
             setGameStatus(false);
+        }
+    }
+
+    function setWin() {
+        let min = Math.min(hand.length, hand1.length, hand2.length, hand3.length)
+        console.log(5)
+        if (hand.length === min) {
+            let win = document.getElementById("win");
+            if (win != null) {
+                win.style.display = "inline-block";
+            }
+        }
+        else if (hand1.length === min) {
+            let win = document.getElementById("win1");
+            if (win != null) {
+                win.style.display = "inline-block";
+            }
+        }
+        if (hand2.length === min) {
+            let win = document.getElementById("win2");
+            if (win != null) {
+                win.style.display = "inline-block";
+            }
+        }
+        if (hand3.length === min) {
+            let win = document.getElementById("win3");
+            if (win != null) {
+                win.style.display = "inline-block";
+            }
         }
     }
 
