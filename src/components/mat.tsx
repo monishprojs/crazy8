@@ -225,9 +225,10 @@ function Mat() {
             }
         }
         else if (count === 0) {
-            setWin()
+            console.log(5)
             setMessage("Game Over!");
             setGameStatus(false);
+            setWin();
         }
     }
 
@@ -294,6 +295,7 @@ function Mat() {
             if (count === 1) {
                 setMessage("Game Over!")
                 setGameStatus(false);
+                setWin();
             }
             setCount(deck.length - 1);
             setDeck(placeholder);
@@ -308,7 +310,7 @@ function Mat() {
     return (
         <div className="mat">
             <div className="label label2">P2
-                <br />
+                &nbsp;
                 <div className='win2' id="win2">
                     wins!
                 </div></div>
@@ -360,7 +362,7 @@ function Mat() {
                 })}
             </div>
             <div className='label label0'>P0
-                <br />
+                &nbsp;
                 <div className='win' id="win">
                     wins!
                 </div></div>
