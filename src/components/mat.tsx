@@ -375,7 +375,7 @@ function Mat() {
                     <p className='turn'>
                         Turn: P{turn}
                         <br />
-                        Cards Left: {count}
+                        Deck Count: {count}
                     </p>
                 </div>
                 <div className='pile'>
